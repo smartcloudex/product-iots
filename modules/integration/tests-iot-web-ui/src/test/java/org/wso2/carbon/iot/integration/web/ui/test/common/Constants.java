@@ -69,12 +69,14 @@ public class Constants {
 
             public static final String USER_NAME_ERROR = "Please enter a username";
             public static final String PASSWORD_ERROR = "Please provide a password";
-            public static final String FAILED_ERROR = "Incorrect username or password.!";
+            public static final String FAILED_ERROR = "LOGIN\n"
+                    + "Login failed! Please recheck the username and password and try again.!\n" + "Username *\n"
+                    + "Password *\n" + "LOGIN\n" + "Create an account";
             public static final String SHORT_PASSWORD_ERROR = "Your password must be at least 3 characters long";
             public static final String WRONG_USER_NAME = "admnnn";
             public static final String WRONG_USER_PASSWORD = "admmmm";
             public static final String SHORT_PASSWORD = "ad";
-            public static final String PAGE_TITLE = "Login | IoT Server";
+            public static final String PAGE_TITLE = "Login | CDMF";
 
         }
 
@@ -86,11 +88,11 @@ public class Constants {
             public static final String EMAIL_ERROR = "user.com";
             public static final String USER_NAME = "user";
             public static final String SHORT_USER_NAME = "us";
-            public static final String SHORT_USER_NAME_ERROR_MSG = "Username must be between 3 and 30 characters long.";
+            public static final String SHORT_USER_NAME_ERROR_MSG = "Provided username is invalid.";
             public static final String FIRST_NAME_ERROR_MSG = "Firstname is a required field. It cannot be empty.";
             public static final String LAST_NAME_ERROR_MSG = "Lastname is a required field. It cannot be empty.";
             public static final String NO_EMAIL_ERROR_MSG = "Email is a required field. It cannot be empty.";
-            public static final String WRONG_EMAIL_ERROR_MSG = "Provided email is invalid. Please check.";
+            public static final String WRONG_EMAIL_ERROR_MSG = "Provided email is invalid.";
 
         }
 
