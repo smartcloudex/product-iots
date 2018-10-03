@@ -28,8 +28,11 @@ var palette = new Rickshaw.Color.Palette({scheme: "classic9"});
 $(window).load(function () {
     drawGraph(wsConnectionTemperature, "#div-chartTemperature", "y_axisTemperature", "chartTemperature", chartDataSensorTypeTemperature
         , graphForSensorTypeTemperature);
-    drawGraph(wsConnectionCoffeeLevel, "#div-chartCoffeeLevel", "y_axisCoffeeLevel", "chartCoffeeLevel", chartDataSensorTypeCoffeeLevel
-        , graphForSensorTypeCoffeeLevel);
+    var millisecondsToWait = 1000;
+    setTimeout(function() {
+        drawGraph(wsConnectionCoffeeLevel, "#div-chartCoffeeLevel", "y_axisCoffeeLevel", "chartCoffeeLevel", chartDataSensorTypeCoffeeLevel
+            , graphForSensorTypeCoffeeLevel);
+    }, millisecondsToWait);
 });
 
 window.onbeforeunload = function() {
@@ -41,9 +44,9 @@ function drawGraph(wsConnection, placeHolder, yAxis, chat, chartData, graph) {
     var tNow = new Date().getTime() / 1000;
     for (var i = 0; i < 30; i++) {
         chartData.push({
-           x: tNow - (30 - i) * 15,
-           y: parseFloat(0)
-       });
+            x: tNow - (30 - i) * 15,
+            y: parseFloat(0)
+        });
     }
 
     graph = new Rickshaw.Graph({
@@ -111,6 +114,22 @@ function connect(wsConnection, target, chartData, graph, sensorType) {
             chartData.shift();
             graph.update();
         };
+        wsConnection.onerror = function (event) {
+            var websocketURL = event.currentTarget.url;
+            websocketURL = websocketURL.replace("wss://","https://");
+            var uriParts = websocketURL.split("/");
+            websocketURL = uriParts[0] + "//" + uriParts[2];
+            var errorMsg = $("#websocker-onerror").html();
+            errorMsg = errorMsg.replace(new RegExp('\\$sensorType', 'g'), sensorType);
+            errorMsg = errorMsg.replace(new RegExp('\\$webSocketURL', 'g'), websocketURL);
+            $(graph.element).parent().html("<div class='alert alert-danger'>" + errorMsg + "</div>");
+            $(graph.element).hide();
+        };
+    }
+    if (sensorType == "temperature") {
+        wsConnectionTemperature = wsConnection;
+    } else {
+        wsConnectionCoffeeLevel = wsConnection;
     }
 }
 

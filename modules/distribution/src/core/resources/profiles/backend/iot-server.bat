@@ -70,7 +70,7 @@ FOR %%C in ("%CARBON_HOME%\bin\*.jar") DO set CARBON_CLASSPATH=!CARBON_CLASSPATH
 
 set CARBON_CLASSPATH="%JAVA_HOME%\lib\tools.jar";%CARBON_CLASSPATH%;
 
-FOR %%D in ("%CARBON_HOME%\wso2\lib\commons-lang*.jar") DO set CARBON_CLASSPATH=!CARBON_CLASSPATH!;".\lib\%%~nD%%~xD"
+FOR %%D in ("%CARBON_HOME%\wso2\lib\commons-lang*.jar") DO set CARBON_CLASSPATH=!CARBON_CLASSPATH!;".\wso2\lib\%%~nD%%~xD"
 
 rem ----- Process the input command -------------------------------------------
 
@@ -154,6 +154,7 @@ rem ----------------- Execute The Requested Command ----------------------------
 cd %CARBON_HOME%
 
 rem ------------------ Remove tmp folder on startup -----------------------------
+IF NOT EXIST %CARBON_HOME%\tmp mkdir %CARBON_HOME%\tmp\work
 set TMP_DIR=%CARBON_HOME%\tmp
 cd "%TMP_DIR%"
 del *.* /s /q > nul

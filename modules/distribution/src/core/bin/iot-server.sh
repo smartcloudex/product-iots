@@ -314,7 +314,9 @@ do
     -Dorg.wso2.ignoreHostnameVerification=true \
     -Dorg.opensaml.httpclient.https.disableHostnameVerification=true \
     -Diot.analytics.host="localhost" \
+    -Diot.analytics.http.port="9765" \
     -Diot.analytics.https.port="9445" \
+    -Diot.analytics.thrift.port="7613" \
     -Diot.manager.host="localhost" \
     -Diot.manager.https.port="9443" \
     -Dmqtt.broker.host="localhost" \
@@ -332,6 +334,8 @@ do
     -Diot.apimpublisher.https.port="9443" \
     -Diot.apimstore.host="localhost" \
     -Diot.apimstore.https.port="9443" \
+    -Dmqtt.broker.https.port="9446" \
+    -Denable-api-scopes-sharing="true" \
     org.wso2.carbon.bootstrap.Bootstrap $*
     status=$?
 done

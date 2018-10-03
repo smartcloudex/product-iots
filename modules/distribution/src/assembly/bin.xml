@@ -70,8 +70,6 @@
                 <exclude>**/master-datasources.xml</exclude>
                 <exclude>**/carbon.xml</exclude>
                 <exclude>**/registry.xml</exclude>
-                <exclude>**/client-truststore.jks</exclude>
-                <exclude>**/wso2carbon.jks</exclude>
                 <exclude>**/WSO2AM_DB.h2.db</exclude>
                 <exclude>**/WSO2DM_DB.h2.db</exclude>
                 <exclude>**/lib/httpmime*</exclude>
@@ -142,7 +140,6 @@
                 <exclude>**/cdm-datasources.xml</exclude>
                 <exclude>**/tomcat/carbon/WEB-INF/web.xml</exclude>
                 <exclude>**/synapse.properties</exclude>
-                <exclude>**/etc/device-analytics-config.xml</exclude>
                 <exclude>**/synapse-handlers.xml</exclude>
                 <exclude>**/tomcat/context.xml</exclude>
                 <exclude>**/security/Owasp.CsrfGuard.Carbon.properties</exclude>
@@ -252,7 +249,6 @@
                 <exclude>**/synapse-configs/**</exclude>
                 <exclude>**/web-apps/**</exclude>
                 <exclude>**/appm-tenant-conf.xml</exclude>
-				<exclude>**/client-truststore.jks</exclude>
             </excludes>
 
         </fileSet>
@@ -324,9 +320,6 @@
             </directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources
             </outputDirectory>
-			<excludes>
-				<exclude>**/client-truststore.jks</exclude>
-			</excludes>
         </fileSet>
 
         <!-- Copying device type deployer files -->
@@ -377,19 +370,6 @@
             </excludes>
         </fileSet>
 
-        <!-- Copying android-web-agent-->
-        <fileSet>
-            <directory>
-                ../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/wso2/deployment/server/jaggeryapps/android-web-agent/
-            </directory>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/android-web-agent
-            </outputDirectory>
-            <excludes>
-                <exclude>**/jaggery.conf</exclude>
-            </excludes>
-        </fileSet>
-
         <fileSet>
             <directory>
                 ../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/wso2/deployment/server/webapps/
@@ -403,6 +383,22 @@
             </excludes>
             <filtered>false</filtered>
             <fileMode>644</fileMode>
+        </fileSet>
+
+        <!--copy the cxf filters to cxf-runtime-->
+        <fileSet>
+            <directory>../cxf-filters/target/cxfFilters/jar</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/lib/runtimes/cxf</outputDirectory>
+        </fileSet>
+        <!--Copying privacy and cookie policies -->
+
+        <fileSet>
+            <directory>src/core/jaggeryapps/privacy-policies/</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/privacy-policies
+            </outputDirectory>
+            <excludes>
+                <exclude>**/jaggery.conf</exclude>
+            </excludes>
         </fileSet>
 
         <!-- Copying APP Manager Publisher and Store Jaggery apps -->
@@ -653,6 +649,7 @@
                 <exclude>**/artifacts.xml</exclude>
                 <exclude>**/json_2.0.0.wso2v1.jar</exclude>
                 <exclude>**/nimbus-jose-jwt_2.26.1.wso2v2.jar</exclude>
+                <exclude>**/httpclient_4.3.2.wso2v1.jar</exclude>
             </excludes>
         </fileSet>
 
@@ -666,9 +663,39 @@
             <excludes>
                 <exclude>**/*connectedcup-samples-deployer.xml</exclude>
                 <exclude>**/*connectedcup/pom.xml</exclude>
+                <exclude>**/*sampledevice/pom.xml</exclude>
+                <exclude>**/*sampledevice-deployer.xml</exclude>
                 <exclude>**/*device-plugins-deployer.xml</exclude>
             </excludes>
         </fileSet>
+
+        <!-- Copying forget me tool -->
+        <fileSet>
+            <directory>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/</directory>
+            <outputDirectory>${project.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/</outputDirectory>
+            <includes>
+                <include>**/lib/**</include>
+                <include>**/log4j.properties</include>
+                <include>**/**/patterns.xml</include>
+            </includes>
+            <fileMode>644</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/sql/iot</directory>
+            <outputDirectory>${project.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/sql/iot</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/sql/apim</directory>
+            <outputDirectory>${project.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/sql/apim</outputDirectory>
+        </fileSet>
+
+
+        <fileSet>
+            <directory>../migration</directory>
+            <outputDirectory>${project.artifactId}-${pom.version}/dbscripts</outputDirectory>
+        </fileSet>
+
         <!-- ********************************* End of IoT Core Profile ********************************* -->
 
         <!-- ********************************* Start of Analytics Profile ********************************* -->
@@ -693,7 +720,6 @@
                 <exclude>**/LICENSE.txt</exclude>
                 <exclude>**/release-notes.html</exclude>
                 <exclude>**/webapp-mode/WEB-INF/web.xml</exclude>
-				<exclude>**/repository/resources/security/client-truststore.jks</exclude>
             </excludes>
         </fileSet>
 
@@ -715,6 +741,13 @@
                 <exclude>**/security/cipher-tool.properties</exclude>
                 <exclude>**/security/Owasp.CsrfGuard.Carbon.properties</exclude>
             </excludes>
+        </fileSet>
+
+        <fileSet>
+            <directory>
+                src/analytics/conf/datasources
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/conf/datasources</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -897,6 +930,13 @@
 
         <fileSet>
             <directory>
+                ../p2-profile/analytics-profile/target/wso2carbon-core-${carbon.kernel.version}/dbscripts
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/dbscripts</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>
                 src/analytics/resources/allthemes
             </directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/resources/allthemes</outputDirectory>
@@ -976,7 +1016,6 @@
                 <exclude>**/LICENSE.txt</exclude>
                 <exclude>**/release-notes.html</exclude>
                 <exclude>**/dbscripts</exclude>
-				<exclude>**/repository/resources/security/client-truststore.jks</exclude>
             </excludes>
         </fileSet>
 
@@ -1099,15 +1138,6 @@
         </fileSet>
 
         <fileSet>
-            <directory>src/broker/resources/STRATOS_ROOT</directory>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/wso2/broker/repository/deployment/server/webapps/STRATOS_ROOT
-            </outputDirectory>
-            <fileMode>644</fileMode>
-            <directoryMode>775</directoryMode>
-        </fileSet>
-
-        <fileSet>
             <directory>../p2-profile/broker-profile/target/wso2carbon-core-${carbon.kernel.version}/wso2/components
             </directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/wso2/components</outputDirectory>
@@ -1219,13 +1249,6 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-        <file>
-            <source>src/core/conf/etc/device-analytics-config.xml</source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/conf/etc</outputDirectory>
-            <destName>device-analytics-config.xml</destName>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
         <!-- Copying synapse-handlers.xml file -->
         <file>
             <source>src/core/conf/synapse-handlers.xml</source>
@@ -1266,6 +1289,19 @@
             <destName>README.txt</destName>
             <fileMode>644</fileMode>
         </file>
+
+        <file>
+            <source>../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/bin/README.txt</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/bin</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+
+        <file>
+            <source>../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/balana-config.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/conf/security/</outputDirectory>
+        </file>
+
         <file>
             <source>src/core/LICENSE.txt</source>
             <outputDirectory>${pom.artifactId}-${pom.version}</outputDirectory>
@@ -1432,6 +1468,12 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+        <file>
+            <source>src/core/conf/etc/config-validation.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/conf/etc/
+            </outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
         <!-- Copying authenticators.xml -->
         <file>
             <source>
@@ -1442,6 +1484,75 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+
+
+        <!-- Copying files related to forget me tool -->
+        <file>
+            <source>../scripts/forget-me.sh</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/bin/</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+        <file>
+            <source>../scripts/forget-me.bat</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/bin/</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/bin/forgetme.sh</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/bin/</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/bin/forgetme.bat</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/bin/</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/product-config/config-iot.json</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/</outputDirectory>
+            <destName>config.json</destName>
+            <fileMode>744</fileMode>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/datasources/sample-apim-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/datasources/</outputDirectory>
+            <fileMode>744</fileMode>
+            <destName>apim-datasources.xml</destName>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/datasources/sample-um-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/datasources/</outputDirectory>
+            <fileMode>744</fileMode>
+            <destName>um-datasources.xml</destName>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/datasources/sample-cdm-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/datasources/</outputDirectory>
+            <fileMode>744</fileMode>
+            <destName>iot-datasources.xml</destName>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/log-config/iot-patterns.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/log-config</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+        <file>
+            <source>target/forget-me/identity-anonymization-tool-${forgetme.tool.version}/conf/log-config/apim-patterns.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/tools/identity-anonymization-tool/conf/log-config</outputDirectory>
+            <fileMode>744</fileMode>
+        </file>
+
+
 
         <!-- ************* Analytics API related files Start ********** -->
         <file>
@@ -1475,14 +1586,6 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-
-        <file>
-            <source>src/core/jaggeryapps/android-web-agent/jaggery.conf</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/android-web-agent/
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
         <file>
             <source>src/core/jaggeryapps/api-store/jaggery.conf</source>
             <outputDirectory>
@@ -1504,6 +1607,15 @@
             </outputDirectory>
             <fileMode>755</fileMode>
         </file>
+
+        <file>
+            <source>src/core/jaggeryapps/privacy-policies/jaggery.conf</source>
+            <outputDirectory>
+                ${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/privacy-policies/
+            </outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+
         <file>
             <source>src/core/jaggeryapps/social/jaggery.conf</source>
             <outputDirectory>
@@ -1522,42 +1634,6 @@
             <source>src/core/jaggeryapps/windows-web-agent/jaggery.conf</source>
             <outputDirectory>
                 ${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/windows-web-agent/
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
-
-        <file>
-            <source>target/webapp-temp/client-registration#v0.11.war</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/webapps
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
-        <file>
-            <source>target/webapp-temp/api#identity#entitlement.war</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/webapps
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
-        <file>
-            <source>target/webapp-temp/authenticationendpoint.war</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/webapps
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
-        <file>
-            <source>target/webapp-temp/oauth2.war</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/webapps
-            </outputDirectory>
-            <fileMode>755</fileMode>
-        </file>
-        <file>
-            <source>target/webapp-temp/shindig.war</source>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/webapps
             </outputDirectory>
             <fileMode>755</fileMode>
         </file>
@@ -1600,6 +1676,23 @@
             </outputDirectory>
             <fileMode>755</fileMode>
         </file>
+
+        <!-- copying server scripts -->
+        <file>
+            <source>../scripts/change-ip.sh</source>
+            <outputDirectory>
+                ${pom.artifactId}-${pom.version}/scripts
+            </outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+        <file>
+            <source>../scripts/change-superadmin-credentials.sh</source>
+            <outputDirectory>
+                ${pom.artifactId}-${pom.version}/scripts
+            </outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+
         <file>
             <source>
                 ../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/governance.xml
@@ -1632,14 +1725,6 @@
                 ${pom.artifactId}-${pom.version}/repository/resources/lifecycles
             </outputDirectory>
         </file>
-        <!-- Adding Geo Dashboard CApp -->
-        <file>
-            <source>
-                ../p2-profile/iot-core-profile/target/wso2carbon-core-${carbon.kernel.version}/wso2/deployment/server/carbonapps/org_wso2_carbon_iot_geo_dashboard-1.0.0.car
-            </source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/devicetypes/analytics/</outputDirectory>
-            <fileMode>644</fileMode>
-        </file>
         <file>
             <source>src/core/samples/connectedcup-samples-deployer.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/samples/</outputDirectory>
@@ -1653,8 +1738,20 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>src/core/samples/sampledevice-deployer.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/samples/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>src/core/samples/connectedcup/pom.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/samples/connectedcup/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/core/samples/sampledevice/pom.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/samples/sampledevice/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
@@ -1676,6 +1773,12 @@
             <source>src/analytics/conf/carbon.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/conf/</outputDirectory>
             <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/analytics/conf/etc/config-validation.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/conf/etc/
+            </outputDirectory>
+            <fileMode>644</fileMode>
         </file>
         <file>
             <source>src/core/README</source>
@@ -1824,6 +1927,12 @@
             <filtered>true</filtered>
         </file>
         <file>
+            <source>src/broker/conf/etc/config-validation.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/wso2/broker/conf/etc/
+            </outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>src/core/README</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/wso2/broker/conf/</outputDirectory>
             <filtered>true</filtered>
@@ -1924,22 +2033,11 @@
         </file>
         <!-- ********************************* End of Broker Profile ********************************* -->
 
-		<!--Start - Need to remove after kernel 4.4.17 release-->
-		<file>
-			<source>src/core/resources/security/client-truststore.jks</source>
-			<outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/security</outputDirectory>
-			<fileMode>644</fileMode>
-		</file>
-		<file>
-			<source>src/core/resources/security/client-truststore.jks</source>
-			<outputDirectory>${pom.artifactId}-${pom.version}/wso2/analytics/repository/resources/security</outputDirectory>
-			<fileMode>644</fileMode>
-		</file>
-		<file>
-			<source>src/core/resources/security/client-truststore.jks</source>
-			<outputDirectory>${pom.artifactId}-${pom.version}/wso2/broker/repository/resources/security</outputDirectory>
-			<fileMode>644</fileMode>
-		</file>
-		<!--End-->
+        <!-- ********************************* Start of Storage PostgreSQL Copying ********************************* -->
+        <file>
+            <source>src/core/resources/dbscripts/storage/resource.sql</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/dbscripts/storage/postgresql</outputDirectory>
+        </file>
+        <!-- ********************************* End of Storage PostgreSQL Copying ********************************* -->
     </files>
 </assembly>
